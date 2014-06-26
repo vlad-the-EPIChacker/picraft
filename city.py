@@ -1,5 +1,6 @@
 import mcpi.minecraft as minecraft
 import mcpi.block as block
+import time
 mc = minecraft.Minecraft.create()
 block = 1
 air = 0
@@ -7,6 +8,7 @@ stone=1
 wood=5
 glass=102
 door=64
+brick=45
 
 def clear(x, z, x2, z2):
     mc.setBlocks(x,0,z,x2,55,z2,air)
@@ -29,8 +31,26 @@ def building(x,z,f):
 
 
     for i in range(0,f):
-        floor(20,20,w,len,i)
+        floor(x,z,w,len,i)
     return
+
+def elevator(x,z,f):
+    h=5
+    mc.setBlocks(x+1,0,z+1,x+1,f*h,z+1,air)
+    y=0
+    while True:
+        while y < f*h:
+            mc.setBlock(x+1,y,z+1,brick)
+            if y>0:
+                mc.setBlock(x+1,y-1,z+1,air)
+            y=y+1
+            time.sleep(1)
+
+        while y > 0:
+            mc.setBlock(x+1,y,z+1,air)
+            mc.setBlock(x+1,y-1,z+1,brick)
+            y=y-1
+            time.sleep(1)
     
 
 ######################Main###############a######
@@ -50,5 +70,5 @@ i=0
 clear(0, 0, 50, 55)
 #floor(20,20,10,10)#
 building(20,20,5)
-
+elevator(20,20,5)
 
